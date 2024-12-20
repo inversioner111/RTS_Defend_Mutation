@@ -11,7 +11,7 @@ namespace RTS
             tables.Add(v, table);
         }
 
-        public int Get(string v)
+        public int Value(string v)
         {
             return tables[v];
         }

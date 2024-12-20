@@ -2,11 +2,11 @@
 {
     public class Payment
     {
-        private Database database;
+        private Table table;
         private Player player;
-        public Payment(Database database, Player player)
+        public Payment(Table table, Player player)
         {
-            this.database = database;
+            this.table = table;
             this.player = player;
         }
         public bool isPayed(int typeId)
@@ -19,7 +19,7 @@
         }
         private int getCost(int typeId)
         {
-            return database.Get("units").Get(typeId.ToString()).Get("cost");
+            return table.Get(typeId.ToString()).Value("cost");
         }
     }
 }

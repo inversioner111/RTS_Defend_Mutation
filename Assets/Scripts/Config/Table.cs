@@ -14,7 +14,7 @@ namespace RTS
             tables.Add(v, table);
         }
 
-        internal Row Get(string v)
+        public Row Get(string v)
         {
             return tables[v];
         }

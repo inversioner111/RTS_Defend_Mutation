@@ -8,6 +8,7 @@ namespace UnitTest
 {
     public class TestGame
     {
+        private Database database;
         private Table table;
         private Row row;
         private Player player;
@@ -18,22 +19,25 @@ namespace UnitTest
         [SetUp]
         public void set()
         {
-            var database = new Database();
-            table = new Table();
-            row = new Row();
-            row.Add("cost", 10);
-            table.Add("1000", row);
-            database.Add("units", table);
-            player = new Player();
-            player.unitCounts = 11;
+            database = new TDataFactroy().Factroy();
+            table = database.Get("units");
+            row = table.Get("1000");
+           
             map = new Vector3[] 
             { 
                 new Vector3(0, 0, 1),
                 new Vector3(0, 0, 2),
                 new Vector3(0, 0, 3)
             };
-            game = new Game(database,player, map);
+            game = new Game(database, map);
             unitRepository = game.unitRepository;
+            player = game.player;
+            player.unitCounts = 11;
+        }
+        [Test]
+        public void testNew()
+        {
+            Assert.AreSame(game.dataBase, database);
         }
         [Test]
         public void testCreateUnit()
@@ -73,6 +77,23 @@ namespace UnitTest
             Assert.AreEqual(0, unitRepository.unitsCount);
             var unit = unitRepository.FindUnit(0);
             Assert.IsNull(unit);
+        }
+        [Test]
+        public void testNotCreateOnOnePos()
+        {
+            player.unitCounts = 10000;
+            game.CreateUnit(1000, 0);
+            var result = game.CreateUnit(1000, 0);
+            Assert.IsFalse(result);
+            Assert.AreEqual(10000-10, player.unitCounts);
+        }
+        [Test]
+        public void testNotify()
+        {
+            var notify = new TNotify();
+            game.notify = notify;
+            game.CreateUnit(1000, 0);
+            Assert.AreEqual($"create unit id:0 type:1000 pos:{new Vector3(0,0,1)}", notify.log);
         }
     }
 }
