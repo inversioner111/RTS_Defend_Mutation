@@ -26,10 +26,9 @@ namespace UnitTest
                 p.transform.position = new Vector3(0, 0, i);
             }
             uimap.transform.SetParent(clone.transform);
-            ui = clone.AddComponent<Entry>();
+            ui = new Entry();
             ui.dataFactroy = new TDataFactroy();
-            ui.enabled = false;
-            ui.Start();
+            ui.Start(clone.transform);
         }
         [Test]
         public void testMap()
@@ -48,25 +47,26 @@ namespace UnitTest
         [Test]
         public void testData()
         {
-            ui = clone.AddComponent<Entry>();
+            ui = new Entry();
             Assert.IsInstanceOf<DataFactroy>(ui.dataFactroy);
             var test = new TDataFactroy();
             ui.dataFactroy = test;
-            ui.Start();
+            ui.Start(clone.transform);
             Assert.AreSame(test.data,ui.game.dataBase);
             Assert.AreEqual(10, ui.game.player.unitCounts);
         }
         [Test]
         public void testNotify()
         {
-            Assert.IsInstanceOf<UnitsView>(ui.unitsView);
-            Assert.AreSame(ui.unitsView,ui.game.notify);
+            Assert.IsNull(ui.unitsView);
+            Assert.AreSame(ui.viewCtrl, ui.game.notify);
+            Assert.AreSame(ui.viewCtrl.mgr, ui.viewMgr);
         }
         [Test]
         public void testViewMgr()
         {
-            Assert.IsInstanceOf<UnitsView>(ui.unitsView);
-            Assert.AreSame(ui.unitsView, ui.game.notify);
+            Assert.IsInstanceOf<ViewMgr>(ui.viewMgr);
+            Assert.NotNull(ui.viewMgr.Get<UnitsView>());
         }
     }
 }

@@ -2,21 +2,27 @@
 using UnityEngine;
 namespace RTS
 {
-    public class Entry : MonoBehaviour
+    public class Entry
     {
+        public ViewCtrl viewCtrl { get; private set; } 
+
         public Game game { get;private set; }
         public DataFactroy dataFactroy { get; set; } = new DataFactroy();
         public UnitsView unitsView { get; private set; }
+        public ViewMgr viewMgr { get; } = new ViewMgr();
 
-        public void Start()
+        public Entry()
         {
-            unitsView = new UnitsView();
-            game = new Game(dataFactroy.Factroy(), getPositions());
+            viewCtrl = new ViewCtrl(viewMgr);
+        }
+        public void Start(Transform map)
+        {
+            game = new Game(dataFactroy.Factroy(), getPositions(map));
             game.Start();
-            game.notify = unitsView;
+            game.notify = viewCtrl;
         }
 
-        private Vector3[] getPositions()
+        private Vector3[] getPositions(Transform transform)
         {
             var ps = transform.Find("positions");
             var array = new Vector3[ps.childCount];
