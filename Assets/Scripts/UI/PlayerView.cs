@@ -2,7 +2,7 @@
 
 namespace RTS
 {
-    public class PlayerView
+    public class PlayerView:AView
     {
         public Text unitCountTxt;
     }

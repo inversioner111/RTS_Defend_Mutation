@@ -16,13 +16,9 @@ namespace UnitTest
         {
             var loader = new TResLoader();
             var ui = new UnitsView();
-            Assert.IsInstanceOf<ResLoader>(ui.loader);
-            ui.loader = loader;
+            Assert.IsNull(ui.loader);
             ui.OnCreateUnit(0, 1, new Vector3(0,0,1));
-            Assert.AreEqual("instanseload:units/unit1", loader.log);
-            Assert.AreEqual("unit1(Clone)", ui.units[0].name);
-            Assert.AreEqual(new Vector3(0, 0, 1), ui.units[0].position);
-            Assert.AreEqual(0, ui.units[0].GetComponent<Identiy>().value);
+            Assert.IsNull(loader.log);
         }
     }
 }

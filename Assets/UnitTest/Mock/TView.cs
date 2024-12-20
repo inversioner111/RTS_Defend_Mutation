@@ -2,7 +2,8 @@
 
 namespace UnitTest
 {
-    internal class TView: AView
+    internal class TView : AView
     {
+        
     }
 }

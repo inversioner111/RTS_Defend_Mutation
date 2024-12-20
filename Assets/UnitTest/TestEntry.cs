@@ -13,6 +13,8 @@ namespace UnitTest
     {
         private Entry ui;
         private GameObject clone;
+        private TViewFactroy viewFactroy;
+        private TDataFactroy dataFactroy;
 
         [SetUp]
         public void set()
@@ -26,9 +28,13 @@ namespace UnitTest
                 p.transform.position = new Vector3(0, 0, i);
             }
             uimap.transform.SetParent(clone.transform);
-            ui = new Entry();
-            ui.dataFactroy = new TDataFactroy();
-            ui.Start(clone.transform);
+            ui = clone.AddComponent<Entry>();
+            ui.enabled = false;
+            dataFactroy = new TDataFactroy();
+            ui.dataFactroy = dataFactroy;
+            viewFactroy = new TViewFactroy();
+            ui.viewFactroy = viewFactroy;
+            ui.Start();
         }
         [Test]
         public void testMap()
@@ -45,28 +51,20 @@ namespace UnitTest
             Assert.AreEqual(3, ui.game.map.Count);
         }
         [Test]
-        public void testData()
+        public void testStart()
         {
-            ui = new Entry();
-            Assert.IsInstanceOf<DataFactroy>(ui.dataFactroy);
-            var test = new TDataFactroy();
-            ui.dataFactroy = test;
-            ui.Start(clone.transform);
-            Assert.AreSame(test.data,ui.game.dataBase);
+            Assert.AreSame(dataFactroy.data, ui.game.dataBase);
+            Assert.AreSame(viewFactroy.ctrl, ui.game.notify);
+            Assert.AreSame(viewFactroy.tran,clone.transform);
             Assert.AreEqual(10, ui.game.player.unitCounts);
         }
         [Test]
-        public void testNotify()
+        public void testNew()
         {
-            Assert.IsNull(ui.unitsView);
-            Assert.AreSame(ui.viewCtrl, ui.game.notify);
-            Assert.AreSame(ui.viewCtrl.mgr, ui.viewMgr);
-        }
-        [Test]
-        public void testViewMgr()
-        {
-            Assert.IsInstanceOf<ViewMgr>(ui.viewMgr);
-            Assert.NotNull(ui.viewMgr.Get<UnitsView>());
+            ui = clone.AddComponent<Entry>();
+            ui.enabled = false;
+            Assert.IsInstanceOf<DataFactroy>(ui.dataFactroy);
+            Assert.IsInstanceOf<ViewFactroy>(ui.viewFactroy);
         }
     }
 }

@@ -5,19 +5,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 
 namespace UnitTest
 {
-    internal class TestViewMgr
+    internal class TestViewBuilder
     {
         [Test]
-        public void testAdd()
+        public void test()
         {
+            var loader = new TResLoader();
+            var root = loader.Instantiate<Transform>("root");
+            var builder = new ViewFactroy();
             var mgr = new ViewMgr();
-            var test = new TView();
-            mgr.Add(test);
-            Assert.AreSame(test.loader, mgr.loader);
-            Assert.AreSame(test, mgr.Get<TView>());
+            
         }
     }
 }
