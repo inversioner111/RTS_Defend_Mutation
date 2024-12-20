@@ -2,17 +2,18 @@
 using UnityEngine;
 namespace RTS
 {
-    public class UI : MonoBehaviour
+    public class Entry : MonoBehaviour
     {
         public Game game { get;private set; }
         public DataFactroy dataFactroy { get; set; } = new DataFactroy();
-        public GameUI gameUI { get; private set; }
+        public UnitsView unitsView { get; private set; }
 
         public void Start()
         {
-            gameUI = new GameUI();
+            unitsView = new UnitsView();
             game = new Game(dataFactroy.Factroy(), getPositions());
-            game.notify = gameUI;
+            game.Start();
+            game.notify = unitsView;
         }
 
         private Vector3[] getPositions()

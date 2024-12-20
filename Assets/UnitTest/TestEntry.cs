@@ -9,9 +9,9 @@ using UnityEngine;
 
 namespace UnitTest
 {
-    internal class TestUI
+    internal class TestEntry
     {
-        private UI ui;
+        private Entry ui;
         private GameObject clone;
 
         [SetUp]
@@ -26,7 +26,7 @@ namespace UnitTest
                 p.transform.position = new Vector3(0, 0, i);
             }
             uimap.transform.SetParent(clone.transform);
-            ui = clone.AddComponent<UI>();
+            ui = clone.AddComponent<Entry>();
             ui.dataFactroy = new TDataFactroy();
             ui.enabled = false;
             ui.Start();
@@ -48,18 +48,25 @@ namespace UnitTest
         [Test]
         public void testData()
         {
-            ui = clone.AddComponent<UI>();
+            ui = clone.AddComponent<Entry>();
             Assert.IsInstanceOf<DataFactroy>(ui.dataFactroy);
             var test = new TDataFactroy();
             ui.dataFactroy = test;
             ui.Start();
             Assert.AreSame(test.data,ui.game.dataBase);
+            Assert.AreEqual(10, ui.game.player.unitCounts);
         }
         [Test]
         public void testNotify()
         {
-            Assert.IsInstanceOf<GameUI>(ui.gameUI);
-            Assert.AreSame(ui.gameUI,ui.game.notify);
+            Assert.IsInstanceOf<UnitsView>(ui.unitsView);
+            Assert.AreSame(ui.unitsView,ui.game.notify);
+        }
+        [Test]
+        public void testViewMgr()
+        {
+            Assert.IsInstanceOf<UnitsView>(ui.unitsView);
+            Assert.AreSame(ui.unitsView, ui.game.notify);
         }
     }
 }

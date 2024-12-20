@@ -9,13 +9,13 @@ using UnityEngine;
 
 namespace UnitTest
 {
-    internal class TestGameUI
+    internal class TestUnitsView
     {
         [Test]
         public void test()
         {
             var loader = new TResLoader();
-            var ui = new GameUI();
+            var ui = new UnitsView();
             Assert.IsInstanceOf<ResLoader>(ui.loader);
             ui.loader = loader;
             ui.OnCreateUnit(0, 1, new Vector3(0,0,1));

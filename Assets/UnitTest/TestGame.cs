@@ -32,12 +32,19 @@ namespace UnitTest
             game = new Game(database, map);
             unitRepository = game.unitRepository;
             player = game.player;
+            game.Start();
             player.unitCounts = 11;
         }
         [Test]
         public void testNew()
         {
             Assert.AreSame(game.dataBase, database);
+        }
+        [Test]
+        public void testStart()
+        {
+            game.Start();
+            Assert.AreEqual(10, player.unitCounts);
         }
         [Test]
         public void testCreateUnit()

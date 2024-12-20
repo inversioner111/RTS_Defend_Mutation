@@ -35,5 +35,10 @@ namespace RTS
             notify?.OnCreateUnit(unit.Id, typeId, unit.transform.position);
             return true;
         }
+
+        public void Start()
+        {
+            player.unitCounts = dataBase.Get("values").Get("unitcounts").Value("value");
+        }
     }
 }
