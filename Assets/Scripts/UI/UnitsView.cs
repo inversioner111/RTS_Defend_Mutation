@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 namespace RTS
 {
-    public class UnitsView : INotify
+    public class UnitsView:AView
     {
         public Dictionary<int, Transform> units { get; } = new Dictionary<int, Transform>();
         public ResLoader loader { get; set; } = new ResLoader();

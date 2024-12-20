@@ -17,6 +17,7 @@ namespace RTS
         }
         public void Start(Transform map)
         {
+            viewMgr.Add(new UnitsView());
             game = new Game(dataFactroy.Factroy(), getPositions(map));
             game.Start();
             game.notify = viewCtrl;
